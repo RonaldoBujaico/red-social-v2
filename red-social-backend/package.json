@@ -1,0 +1,49 @@
+{
+    "name": "red-social-backend",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "dev": "tsx watch src/server.ts",
+        "build": "tsc",
+        "start": "node dist/server.js"
+    },
+    "keywords": [],
+    "author": "Hansel & Ronaldo",
+    "license": "ISC",
+    "type": "commonjs",
+    "dependencies": {
+        "bcrypt": "^6.0.0",
+        "class-transformer": "^0.5.1",
+        "class-validator": "^0.15.1",
+        "cloudinary": "^2.10.0",
+        "cors": "^2.8.6",
+        "dotenv": "^17.4.2",
+        "express": "^5.2.1",
+        "geoip-lite": "^1.4.10",
+        "jsonwebtoken": "^9.0.3",
+        "mssql": "^12.3.1",
+        "multer": "^2.1.1",
+        "nodemailer": "^8.0.5",
+        "reflect-metadata": "^0.2.2",
+        "resend": "^6.12.2",
+        "tsconfig-paths": "^4.2.0",
+        "ua-parser-js": "^2.0.9",
+        "winston": "^3.19.0"
+    },
+    "devDependencies": {
+        "@types/bcrypt": "^6.0.0",
+        "@types/cors": "^2.8.19",
+        "@types/express": "^5.0.6",
+        "@types/geoip-lite": "^1.4.4",
+        "@types/jsonwebtoken": "^9.0.10",
+        "@types/multer": "^2.1.0",
+        "@types/node": "^25.6.0",
+        "@types/nodemailer": "^8.0.0",
+        "ts-node": "^10.9.2",
+        "ts-node-dev": "^2.0.0",
+        "tsx": "^4.21.0",
+        "typeorm": "^0.3.28",
+        "typescript": "^5.4.5"
+    }
+}
