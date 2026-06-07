@@ -133,7 +133,7 @@ export const login = async (
     }
     const user = await userRepo.findOne({
         where: { email: data.email },
-        relations: ["profile"],
+        relations: ["profile", "interests", "skills", "courses", "researchTopics"],
     });
 
     if (!user)

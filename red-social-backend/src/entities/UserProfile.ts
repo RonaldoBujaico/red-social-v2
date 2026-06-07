@@ -30,11 +30,35 @@ export class UserProfile {
     @Column({ type: "text", nullable: true })
     bio!: string;
 
+    @Column({ type: "varchar", length: 150, nullable: true })
+    university!: string;
+
+    @Column({ type: "varchar", length: 150, nullable: true })
+    faculty!: string;
+
     @Column({ type: "varchar", length: 100, nullable: true })
     career!: string;
 
     @Column({ type: "varchar", length: 50, nullable: true })
     cycle!: string;
+
+    @Column({ type: "varchar", length: 50, nullable: true })
+    academic_cycle!: string;
+
+    @Column({ type: "varchar", length: 100, nullable: true })
+    country!: string;
+
+    @Column({ type: "varchar", length: 100, nullable: true })
+    department!: string;
+
+    @Column({ type: "varchar", length: 100, nullable: true })
+    province!: string;
+
+    @Column({ type: "varchar", length: 100, nullable: true })
+    district!: string;
+
+    @Column({ type: "text", nullable: true })
+    biography!: string;
 
     @Column({ type: "varchar", length: 20, nullable: true })
     phone!: string;

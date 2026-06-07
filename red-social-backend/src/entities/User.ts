@@ -8,6 +8,10 @@ import {
 import { UserProfile } from "./UserProfile";
 import { Post } from "./Post";
 import { Follow } from "./Follow";
+import { UserInterest } from "./UserInterest";
+import { UserSkill } from "./UserSkill";
+import { UserCourse } from "./UserCourse";
+import { UserResearchTopic } from "./UserResearchTopic";
 
 @Entity("user")
 export class User {
@@ -47,4 +51,16 @@ export class User {
 
     @OneToMany(() => Follow, (follow) => follow.following)
     followers!: Follow[];
+
+    @OneToMany(() => UserInterest, (interest) => interest.user, { cascade: true })
+    interests!: UserInterest[];
+
+    @OneToMany(() => UserSkill, (skill) => skill.user, { cascade: true })
+    skills!: UserSkill[];
+
+    @OneToMany(() => UserCourse, (course) => course.user, { cascade: true })
+    courses!: UserCourse[];
+
+    @OneToMany(() => UserResearchTopic, (topic) => topic.user, { cascade: true })
+    researchTopics!: UserResearchTopic[];
 }

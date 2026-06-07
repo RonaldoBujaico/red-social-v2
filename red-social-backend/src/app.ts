@@ -13,6 +13,7 @@ import messageRoutes from "./routes/message.routes";
 import userSettingsRoutes from "./routes/user-settings.routes";
 import adminRoutes from "./routes/admin.routes";
 import reportRoutes from "./routes/report.routes";
+import chatbotRoutes from "./routes/chatbot.routes";
 
 const app = express();
 console.log("DB_HOST:", process.env.DB_HOST);
@@ -68,6 +69,7 @@ app.use("/messages", messageRoutes);
 app.use("/user-settings", userSettingsRoutes);
 app.use("/admin", adminRoutes);
 app.use("/reports", reportRoutes);
+app.use("/chatbot", chatbotRoutes);
 
 app.get("/", (req, res) => {
   res.send("API funcionando 🚀");

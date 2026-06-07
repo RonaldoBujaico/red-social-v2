@@ -4,6 +4,10 @@ import { CreateUserDto } from "../dtos/user.dto";
 import { User } from "../entities/User";
 import { UserProfile } from "../entities/UserProfile";
 import { FriendRequest } from "../entities/FriendRequest";
+import { UserInterest } from "../entities/UserInterest";
+import { UserSkill } from "../entities/UserSkill";
+import { UserCourse } from "../entities/UserCourse";
+import { UserResearchTopic } from "../entities/UserResearchTopic";
 import { AppError } from "../errors/AppError";
 import { ErrorCode } from "../utils/errorCodes";
 import { hashPassword } from "../utils/hash";
@@ -13,6 +17,10 @@ import { validateUserFormat } from "../utils/validators";
 const userRepo = AppDataSource.getRepository(User);
 const profileRepo = AppDataSource.getRepository(UserProfile);
 const friendRequestRepo = AppDataSource.getRepository(FriendRequest);
+const interestRepo = AppDataSource.getRepository(UserInterest);
+const skillRepo = AppDataSource.getRepository(UserSkill);
+const courseRepo = AppDataSource.getRepository(UserCourse);
+const topicRepo = AppDataSource.getRepository(UserResearchTopic);
 
 const removePassword = (user: User) => {
     const safeUser = { ...user } as any;
@@ -80,7 +88,7 @@ export const getUsers = async () => {
 export const getUserById = async (id: number) => {
     const user = await userRepo.findOne({
         where: { id },
-        relations: ["profile"],
+        relations: ["profile", "interests", "skills", "courses", "researchTopics"],
     });
 
     if (!user) {
@@ -97,7 +105,7 @@ export const getUserById = async (id: number) => {
 export const updateUser = async (id: number, data: Partial<CreateUserDto>) => {
     const user = await userRepo.findOne({
         where: { id },
-        relations: ["profile"],
+        relations: ["profile", "interests", "skills", "courses", "researchTopics"],
     });
 
     if (!user) {
@@ -144,20 +152,60 @@ export const updateUser = async (id: number, data: Partial<CreateUserDto>) => {
         user.profile.username = data.username;
     }
 
+    // Actualizar campos básicos
     user.profile.firstName = data.firstName ?? user.profile.firstName;
     user.profile.lastName = data.lastName ?? user.profile.lastName;
     user.profile.birthDate = data.birthDate ?? user.profile.birthDate;
     user.profile.gender = data.gender ?? user.profile.gender;
     user.profile.bio = data.bio ?? user.profile.bio;
-    user.profile.career = data.career !== undefined ? data.career : user.profile.career;
-    user.profile.cycle = data.cycle !== undefined ? data.cycle : user.profile.cycle;
     user.profile.phone = data.phone !== undefined ? data.phone : user.profile.phone;
     user.profile.hobbies = data.hobbies !== undefined ? data.hobbies : user.profile.hobbies;
     user.profile.avatar = data.avatar ?? user.profile.avatar;
 
+    // Actualizar nuevos campos académicos y geográficos
+    user.profile.university = data.university !== undefined ? data.university : user.profile.university;
+    user.profile.faculty = data.faculty !== undefined ? data.faculty : user.profile.faculty;
+    user.profile.career = data.career !== undefined ? data.career : user.profile.career;
+    user.profile.cycle = data.cycle !== undefined ? data.cycle : user.profile.cycle;
+    user.profile.academic_cycle = data.academic_cycle !== undefined ? data.academic_cycle : user.profile.academic_cycle;
+    user.profile.country = data.country !== undefined ? data.country : user.profile.country;
+    user.profile.department = data.department !== undefined ? data.department : user.profile.department;
+    user.profile.province = data.province !== undefined ? data.province : user.profile.province;
+    user.profile.district = data.district !== undefined ? data.district : user.profile.district;
+    user.profile.biography = data.biography !== undefined ? data.biography : user.profile.biography;
+
+    // Guardar primero el usuario para persistir cambios en profile
     await userRepo.save(user);
 
-    return removePassword(user);
+    // Actualizar relaciones transaccionales OneToMany
+    if (data.interests !== undefined) {
+        await interestRepo.delete({ user: { id } });
+        const newInterests = data.interests.map(name => interestRepo.create({ interestName: name, user }));
+        await interestRepo.save(newInterests);
+    }
+    if (data.skills !== undefined) {
+        await skillRepo.delete({ user: { id } });
+        const newSkills = data.skills.map(name => skillRepo.create({ skillName: name, user }));
+        await skillRepo.save(newSkills);
+    }
+    if (data.courses !== undefined) {
+        await courseRepo.delete({ user: { id } });
+        const newCourses = data.courses.map(name => courseRepo.create({ courseName: name, user }));
+        await courseRepo.save(newCourses);
+    }
+    if (data.researchTopics !== undefined) {
+        await topicRepo.delete({ user: { id } });
+        const newTopics = data.researchTopics.map(name => topicRepo.create({ topicName: name, user }));
+        await topicRepo.save(newTopics);
+    }
+
+    // Refrescar y retornar con relaciones actualizadas
+    const updatedUser = await userRepo.findOne({
+        where: { id },
+        relations: ["profile", "interests", "skills", "courses", "researchTopics"],
+    });
+
+    return removePassword(updatedUser!);
 };
 
 export const deleteUser = async (id: number) => {

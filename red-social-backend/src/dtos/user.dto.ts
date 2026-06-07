@@ -14,6 +14,22 @@ export type CreateUserDto = {
     avatar?: string;
     isActive?: boolean;
     role: "user" | "admin" | "moderator";
+
+    // Nuevos campos académicos y geográficos
+    university?: string;
+    faculty?: string;
+    academic_cycle?: string;
+    country?: string;
+    department?: string;
+    province?: string;
+    district?: string;
+    biography?: string;
+
+    // Relaciones indirectas de strings
+    interests?: string[];
+    skills?: string[];
+    courses?: string[];
+    researchTopics?: string[];
 };
 
 export type UpdateUserDto = {
@@ -33,4 +49,20 @@ export type UpdateUserDto = {
     isActive?: boolean;
     isBanned?: boolean;
     role?: "user" | "admin" | "moderator";
+
+    // Nuevos campos académicos y geográficos
+    university?: string;
+    faculty?: string;
+    academic_cycle?: string;
+    country?: string;
+    department?: string;
+    province?: string;
+    district?: string;
+    biography?: string;
+
+    // Relaciones indirectas de strings
+    interests?: string[];
+    skills?: string[];
+    courses?: string[];
+    researchTopics?: string[];
 };
