@@ -19,8 +19,8 @@ import {
     updateMySettingsRequest,
 } from "@/api/settings.api";
 import { changePasswordRequest } from "@/api/auth.api";
-
 import { useThemeStore } from "@/store/theme.store";
+import PasswordInput from "@/components/PasswordInput";
 
 type TabType =
     | "cuenta"
@@ -78,9 +78,20 @@ export default function Settings() {
         lastName: user?.profile?.lastName || "",
         username: user?.profile?.username || "",
         email: user?.email || "",
-        bio:
-            user?.profile?.bio ||
-            "Estudiante universitario usando UniConnect para compartir publicaciones, ideas y momentos.",
+        bio: user?.profile?.bio || "",
+        university: user?.profile?.university || "",
+        faculty: user?.profile?.faculty || "",
+        career: user?.profile?.career || "",
+        cycle: user?.profile?.academic_cycle || user?.profile?.cycle || "",
+        country: user?.profile?.country || "",
+        department: user?.profile?.department || "",
+        province: user?.profile?.province || "",
+        district: user?.profile?.district || "",
+        biography: user?.profile?.biography || "",
+        interests: user?.interests?.map(i => i.interestName).join(", ") || "",
+        skills: user?.skills?.map(s => s.skillName).join(", ") || "",
+        courses: user?.courses?.map(c => c.courseName).join(", ") || "",
+        researchTopics: user?.researchTopics?.map(t => t.topicName).join(", ") || "",
     });
 
     const [changingPassword, setChangingPassword] = useState(false);
@@ -205,6 +216,20 @@ export default function Settings() {
                 username: profileForm.username.trim(),
                 email: profileForm.email.trim(),
                 bio: profileForm.bio.trim(),
+                university: profileForm.university.trim(),
+                faculty: profileForm.faculty.trim(),
+                career: profileForm.career.trim(),
+                cycle: profileForm.cycle.trim(),
+                academic_cycle: profileForm.cycle.trim(),
+                country: profileForm.country.trim(),
+                department: profileForm.department.trim(),
+                province: profileForm.province.trim(),
+                district: profileForm.district.trim(),
+                biography: profileForm.biography.trim(),
+                interests: profileForm.interests.split(",").map(i => i.trim()).filter(Boolean),
+                skills: profileForm.skills.split(",").map(s => s.trim()).filter(Boolean),
+                courses: profileForm.courses.split(",").map(c => c.trim()).filter(Boolean),
+                researchTopics: profileForm.researchTopics.split(",").map(t => t.trim()).filter(Boolean),
             });
 
             const storedAuth = localStorage.getItem("auth");
@@ -428,9 +453,248 @@ export default function Settings() {
                             />
                         </div>
 
+                        <div className="md:col-span-2 mt-4 pt-4 border-t border-border">
+                            <h3 className="font-extrabold text-sm text-yellow-500 uppercase tracking-wider mb-3">
+                                Información Académica
+                            </h3>
+                        </div>
+
+                        <div>
+                            <label className="block text-sm font-semibold mb-2">
+                                Universidad
+                            </label>
+                            <input
+                                value={profileForm.university}
+                                onChange={(e) =>
+                                    setProfileForm((prev) => ({
+                                        ...prev,
+                                        university: e.target.value,
+                                    }))
+                                }
+                                className="w-full bg-background border border-border rounded-2xl px-4 py-3 outline-none focus:ring-2 focus:ring-yellow-500/30"
+                                placeholder="Ej. UPN"
+                            />
+                        </div>
+
+                        <div>
+                            <label className="block text-sm font-semibold mb-2">
+                                Facultad
+                            </label>
+                            <input
+                                value={profileForm.faculty}
+                                onChange={(e) =>
+                                    setProfileForm((prev) => ({
+                                        ...prev,
+                                        faculty: e.target.value,
+                                    }))
+                                }
+                                className="w-full bg-background border border-border rounded-2xl px-4 py-3 outline-none focus:ring-2 focus:ring-yellow-500/30"
+                                placeholder="Ej. Ingeniería"
+                            />
+                        </div>
+
+                        <div>
+                            <label className="block text-sm font-semibold mb-2">
+                                Carrera
+                            </label>
+                            <input
+                                value={profileForm.career}
+                                onChange={(e) =>
+                                    setProfileForm((prev) => ({
+                                        ...prev,
+                                        career: e.target.value,
+                                    }))
+                                }
+                                className="w-full bg-background border border-border rounded-2xl px-4 py-3 outline-none focus:ring-2 focus:ring-yellow-500/30"
+                                placeholder="Ej. Ingeniería de Sistemas"
+                            />
+                        </div>
+
+                        <div>
+                            <label className="block text-sm font-semibold mb-2">
+                                Ciclo Académico
+                            </label>
+                            <input
+                                value={profileForm.cycle}
+                                onChange={(e) =>
+                                    setProfileForm((prev) => ({
+                                        ...prev,
+                                        cycle: e.target.value,
+                                    }))
+                                }
+                                className="w-full bg-background border border-border rounded-2xl px-4 py-3 outline-none focus:ring-2 focus:ring-yellow-500/30"
+                                placeholder="Ej. 5"
+                            />
+                        </div>
+
+                        <div className="md:col-span-2 mt-4 pt-4 border-t border-border">
+                            <h3 className="font-extrabold text-sm text-yellow-500 uppercase tracking-wider mb-3">
+                                Ubicación Geográfica
+                            </h3>
+                        </div>
+
+                        <div>
+                            <label className="block text-sm font-semibold mb-2">
+                                País
+                            </label>
+                            <input
+                                value={profileForm.country}
+                                onChange={(e) =>
+                                    setProfileForm((prev) => ({
+                                        ...prev,
+                                        country: e.target.value,
+                                    }))
+                                }
+                                className="w-full bg-background border border-border rounded-2xl px-4 py-3 outline-none focus:ring-2 focus:ring-yellow-500/30"
+                                placeholder="Ej. Perú"
+                            />
+                        </div>
+
+                        <div>
+                            <label className="block text-sm font-semibold mb-2">
+                                Departamento
+                            </label>
+                            <input
+                                value={profileForm.department}
+                                onChange={(e) =>
+                                    setProfileForm((prev) => ({
+                                        ...prev,
+                                        department: e.target.value,
+                                    }))
+                                }
+                                className="w-full bg-background border border-border rounded-2xl px-4 py-3 outline-none focus:ring-2 focus:ring-yellow-500/30"
+                                placeholder="Ej. Lima"
+                            />
+                        </div>
+
+                        <div>
+                            <label className="block text-sm font-semibold mb-2">
+                                Provincia
+                            </label>
+                            <input
+                                value={profileForm.province}
+                                onChange={(e) =>
+                                    setProfileForm((prev) => ({
+                                        ...prev,
+                                        province: e.target.value,
+                                    }))
+                                }
+                                className="w-full bg-background border border-border rounded-2xl px-4 py-3 outline-none focus:ring-2 focus:ring-yellow-500/30"
+                                placeholder="Ej. Lima"
+                            />
+                        </div>
+
+                        <div>
+                            <label className="block text-sm font-semibold mb-2">
+                                Distrito
+                            </label>
+                            <input
+                                value={profileForm.district}
+                                onChange={(e) =>
+                                    setProfileForm((prev) => ({
+                                        ...prev,
+                                        district: e.target.value,
+                                    }))
+                                }
+                                className="w-full bg-background border border-border rounded-2xl px-4 py-3 outline-none focus:ring-2 focus:ring-yellow-500/30"
+                                placeholder="Ej. Los Olivos"
+                            />
+                        </div>
+
+                        <div className="md:col-span-2 mt-4 pt-4 border-t border-border">
+                            <h3 className="font-extrabold text-sm text-yellow-500 uppercase tracking-wider mb-3">
+                                Intereses, Habilidades y Especialidades (separados por comas)
+                            </h3>
+                        </div>
+
                         <div className="md:col-span-2">
                             <label className="block text-sm font-semibold mb-2">
-                                Biografía
+                                Presentación Académica (Biografía Opcional)
+                            </label>
+                            <textarea
+                                value={profileForm.biography}
+                                onChange={(e) =>
+                                    setProfileForm((prev) => ({
+                                        ...prev,
+                                        biography: e.target.value,
+                                    }))
+                                }
+                                className="w-full min-h-24 bg-background border border-border rounded-2xl px-4 py-3 outline-none focus:ring-2 focus:ring-yellow-500/30 resize-none"
+                                placeholder="Escribe aquí tu presentación profesional o biografía formal"
+                            />
+                        </div>
+
+                        <div>
+                            <label className="block text-sm font-semibold mb-2">
+                                Intereses Académicos
+                            </label>
+                            <input
+                                value={profileForm.interests}
+                                onChange={(e) =>
+                                    setProfileForm((prev) => ({
+                                        ...prev,
+                                        interests: e.target.value,
+                                    }))
+                                }
+                                className="w-full bg-background border border-border rounded-2xl px-4 py-3 outline-none focus:ring-2 focus:ring-yellow-500/30"
+                                placeholder="Ej. Inteligencia Artificial, Robótica, Bases de Datos"
+                            />
+                        </div>
+
+                        <div>
+                            <label className="block text-sm font-semibold mb-2">
+                                Habilidades Técnicas
+                            </label>
+                            <input
+                                value={profileForm.skills}
+                                onChange={(e) =>
+                                    setProfileForm((prev) => ({
+                                        ...prev,
+                                        skills: e.target.value,
+                                    }))
+                                }
+                                className="w-full bg-background border border-border rounded-2xl px-4 py-3 outline-none focus:ring-2 focus:ring-yellow-500/30"
+                                placeholder="Ej. TypeScript, React, SQL Server, Python"
+                            />
+                        </div>
+
+                        <div>
+                            <label className="block text-sm font-semibold mb-2">
+                                Cursos Favoritos
+                            </label>
+                            <input
+                                value={profileForm.courses}
+                                onChange={(e) =>
+                                    setProfileForm((prev) => ({
+                                        ...prev,
+                                        courses: e.target.value,
+                                    }))
+                                }
+                                className="w-full bg-background border border-border rounded-2xl px-4 py-3 outline-none focus:ring-2 focus:ring-yellow-500/30"
+                                placeholder="Ej. Algoritmos, Estructuras de Datos, Ingeniería de Software"
+                            />
+                        </div>
+
+                        <div>
+                            <label className="block text-sm font-semibold mb-2">
+                                Temas de Investigación
+                            </label>
+                            <input
+                                value={profileForm.researchTopics}
+                                onChange={(e) =>
+                                    setProfileForm((prev) => ({
+                                        ...prev,
+                                        researchTopics: e.target.value,
+                                    }))
+                                }
+                                className="w-full bg-background border border-border rounded-2xl px-4 py-3 outline-none focus:ring-2 focus:ring-yellow-500/30"
+                                placeholder="Ej. Deep Learning, NLP, Cloud Computing"
+                            />
+                        </div>
+
+                        <div className="md:col-span-2 mt-4 pt-4 border-t border-border">
+                            <label className="block text-sm font-semibold mb-2">
+                                Descripción Corta del Perfil (Muro)
                             </label>
                             <textarea
                                 value={profileForm.bio}
@@ -440,8 +704,8 @@ export default function Settings() {
                                         bio: e.target.value,
                                     }))
                                 }
-                                className="w-full min-h-28 bg-background border border-border rounded-2xl px-4 py-3 outline-none focus:ring-2 focus:ring-yellow-500/30 resize-none"
-                                placeholder="Cuéntanos algo sobre ti"
+                                className="w-full min-h-20 bg-background border border-border rounded-2xl px-4 py-3 outline-none focus:ring-2 focus:ring-yellow-500/30 resize-none"
+                                placeholder="Eslogan corto que aparecerá en tu tarjeta de presentación"
                             />
                         </div>
                     </div>
@@ -672,8 +936,9 @@ export default function Settings() {
                                         Contraseña actual
                                     </label>
 
-                                    <input
-                                        type="password"
+                                    <PasswordInput
+                                        id="current-password"
+                                        name="currentPassword"
                                         value={passwordForm.currentPassword}
                                         onChange={(e) =>
                                             setPasswordForm((prev) => ({
@@ -681,8 +946,10 @@ export default function Settings() {
                                                 currentPassword: e.target.value,
                                             }))
                                         }
-                                        className="w-full bg-card border border-border rounded-2xl px-4 py-3 outline-none focus:ring-2 focus:ring-yellow-500/30"
                                         placeholder="Ingresa tu contraseña actual"
+                                        ariaLabel="Contraseña actual"
+                                        autoComplete="current-password"
+                                        className="mt-1"
                                     />
                                 </div>
 
@@ -691,8 +958,9 @@ export default function Settings() {
                                         Nueva contraseña
                                     </label>
 
-                                    <input
-                                        type="password"
+                                    <PasswordInput
+                                        id="new-password"
+                                        name="newPassword"
                                         value={passwordForm.newPassword}
                                         onChange={(e) =>
                                             setPasswordForm((prev) => ({
@@ -700,8 +968,10 @@ export default function Settings() {
                                                 newPassword: e.target.value,
                                             }))
                                         }
-                                        className="w-full bg-card border border-border rounded-2xl px-4 py-3 outline-none focus:ring-2 focus:ring-yellow-500/30"
                                         placeholder="Mínimo 6 caracteres"
+                                        ariaLabel="Nueva contraseña"
+                                        autoComplete="new-password"
+                                        className="mt-1"
                                     />
                                 </div>
 
@@ -710,8 +980,9 @@ export default function Settings() {
                                         Confirmar nueva contraseña
                                     </label>
 
-                                    <input
-                                        type="password"
+                                    <PasswordInput
+                                        id="confirm-password"
+                                        name="confirmPassword"
                                         value={passwordForm.confirmPassword}
                                         onChange={(e) =>
                                             setPasswordForm((prev) => ({
@@ -719,8 +990,10 @@ export default function Settings() {
                                                 confirmPassword: e.target.value,
                                             }))
                                         }
-                                        className="w-full bg-card border border-border rounded-2xl px-4 py-3 outline-none focus:ring-2 focus:ring-yellow-500/30"
                                         placeholder="Repite tu nueva contraseña"
+                                        ariaLabel="Confirmar nueva contraseña"
+                                        autoComplete="new-password"
+                                        className="mt-1"
                                     />
                                 </div>
                             </div>

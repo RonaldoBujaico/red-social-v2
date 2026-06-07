@@ -203,34 +203,34 @@ export default function UserProfile() {
                             </div>
                         )}
 
-                        <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 text-sm text-muted-foreground">
-                            <span className="flex items-center gap-2">
-                                <Mail size={16} className="text-yellow-500/80" />
-                                <span className="truncate">{user.email}</span>
+                        <div className="mt-4 flex flex-wrap gap-x-5 gap-y-2 text-xs text-muted-foreground">
+                            <span className="flex items-center gap-1.5">
+                                <Mail size={13} className="text-yellow-500 flex-shrink-0" />
+                                <span className="truncate max-w-[200px]">{user.email}</span>
                             </span>
 
-                            <span className="flex items-center gap-2">
-                                <MapPin size={16} className="text-yellow-500/80" />
-                                <span>Universidad Privada del Norte</span>
+                            <span className="flex items-center gap-1.5">
+                                <GraduationCap size={13} className="text-yellow-500 flex-shrink-0" />
+                                <span>{profile?.university || "Universidad Privada del Norte"} {profile?.faculty ? `· Fac. ${profile.faculty}` : ""}</span>
                             </span>
 
                             {profile?.career && (
-                                <span className="flex items-center gap-2">
-                                    <GraduationCap size={16} className="text-yellow-500/80" />
-                                    <span className="truncate">{profile.career} {profile.cycle ? `(${profile.cycle})` : ""}</span>
+                                <span className="flex items-center gap-1.5">
+                                    <GraduationCap size={13} className="text-yellow-500 flex-shrink-0" />
+                                    <span>{profile.career} {profile.academic_cycle ? `· Ciclo ${profile.academic_cycle}` : profile.cycle ? `· Ciclo ${profile.cycle}` : ""}</span>
                                 </span>
                             )}
 
                             {profile?.phone && (
-                                <span className="flex items-center gap-2">
-                                    <Phone size={16} className="text-yellow-500/80" />
+                                <span className="flex items-center gap-1.5">
+                                    <Phone size={13} className="text-yellow-500 flex-shrink-0" />
                                     <span>{profile.phone}</span>
                                 </span>
                             )}
 
                             {profile?.gender && (
-                                <span className="flex items-center gap-2">
-                                    <UserIcon size={16} className="text-yellow-500/80" />
+                                <span className="flex items-center gap-1.5">
+                                    <UserIcon size={13} className="text-yellow-500 flex-shrink-0" />
                                     <span>
                                         {profile.gender === "male"
                                             ? "Masculino"
@@ -242,11 +242,95 @@ export default function UserProfile() {
                             )}
 
                             {profile?.birthDate && (
-                                <span className="flex items-center gap-2">
-                                    <CalendarDays size={16} className="text-yellow-500/80" />
+                                <span className="flex items-center gap-1.5">
+                                    <CalendarDays size={13} className="text-yellow-500 flex-shrink-0" />
                                     <span>Nacimiento: {new Date(profile.birthDate).toLocaleDateString("es", { day: "numeric", month: "long" })}</span>
                                 </span>
                             )}
+
+                            {(profile?.country || profile?.department || profile?.district) && (
+                                <span className="flex items-center gap-1.5">
+                                    <MapPin size={13} className="text-yellow-500 flex-shrink-0" />
+                                    <span>{[profile?.district, profile?.province, profile?.department, profile?.country].filter(Boolean).join(", ")}</span>
+                                </span>
+                            )}
+                        </div>
+
+                        {/* Nueva Sección Académica Estructurada Premium */}
+                        <div className="mt-5 p-4 rounded-2xl bg-muted/30 border border-border space-y-4">
+                            <h3 className="font-extrabold text-xs text-yellow-500 uppercase tracking-wider flex items-center gap-1.5">
+                                <Sparkles size={14} className="fill-yellow-500/10" />
+                                Expediente Académico e Intereses
+                            </h3>
+
+                            {profile?.biography && (
+                                <div className="text-xs text-foreground/80 leading-relaxed bg-background/50 p-3 rounded-xl border border-border">
+                                    <span className="font-bold text-yellow-500 block mb-1">Presentación Académica:</span>
+                                    {profile.biography}
+                                </div>
+                            )}
+
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                {user?.skills && user.skills.length > 0 && (
+                                    <div>
+                                        <h4 className="text-[10px] font-bold text-muted-foreground uppercase tracking-wide mb-1.5">
+                                            💻 Habilidades Técnicas
+                                        </h4>
+                                        <div className="flex flex-wrap gap-1">
+                                            {user.skills.map((s, idx) => (
+                                                <span key={idx} className="bg-yellow-500/10 border border-yellow-500/20 text-yellow-500 px-2 py-0.5 rounded-lg text-[10px] font-semibold">
+                                                    {s.skillName}
+                                                </span>
+                                            ))}
+                                        </div>
+                                    </div>
+                                )}
+
+                                {user?.interests && user.interests.length > 0 && (
+                                    <div>
+                                        <h4 className="text-[10px] font-bold text-muted-foreground uppercase tracking-wide mb-1.5">
+                                            🎯 Intereses Científicos
+                                        </h4>
+                                        <div className="flex flex-wrap gap-1">
+                                            {user.interests.map((i, idx) => (
+                                                <span key={idx} className="bg-blue-500/10 border border-blue-500/20 text-blue-400 px-2 py-0.5 rounded-lg text-[10px] font-semibold">
+                                                    {i.interestName}
+                                                </span>
+                                            ))}
+                                        </div>
+                                    </div>
+                                )}
+
+                                {user?.courses && user.courses.length > 0 && (
+                                    <div>
+                                        <h4 className="text-[10px] font-bold text-muted-foreground uppercase tracking-wide mb-1.5">
+                                            📚 Cursos de Enfoque
+                                        </h4>
+                                        <div className="flex flex-wrap gap-1">
+                                            {user.courses.map((c, idx) => (
+                                                <span key={idx} className="bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 px-2 py-0.5 rounded-lg text-[10px] font-semibold">
+                                                    {c.courseName}
+                                                </span>
+                                            ))}
+                                        </div>
+                                    </div>
+                                )}
+
+                                {user?.researchTopics && user.researchTopics.length > 0 && (
+                                    <div>
+                                        <h4 className="text-[10px] font-bold text-muted-foreground uppercase tracking-wide mb-1.5">
+                                            🔬 Temas de Investigación
+                                        </h4>
+                                        <div className="flex flex-wrap gap-1">
+                                            {user.researchTopics.map((t, idx) => (
+                                                <span key={idx} className="bg-purple-500/10 border border-purple-500/20 text-purple-400 px-2 py-0.5 rounded-lg text-[10px] font-semibold">
+                                                    {t.topicName}
+                                                </span>
+                                            ))}
+                                        </div>
+                                    </div>
+                                )}
+                            </div>
                         </div>
 
                         <div className="mt-4 flex gap-6 text-sm">

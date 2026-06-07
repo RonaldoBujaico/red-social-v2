@@ -1,6 +1,7 @@
 import ThemeButton from "@/components/buttons/ThemeButton";
 import { NavLink, Outlet } from "react-router-dom";
 import LogoutButton from "../components/buttons/LogoutButton";
+import ChatBotWidget from "@/components/chatbot/ChatBotWidget";
 import {
     House,
     Compass,
@@ -217,6 +218,9 @@ export default function MainLayout() {
             <div className="hidden xl:block">
                 <RightSidebar />
             </div>
+
+            {/* ── Chatbot floating widget ── */}
+            <ChatBotWidget />
 
             {/* ── Theme toggle floating button (desktop only, higher on mobile due to bottom nav) ── */}
             <div className="fixed bottom-24 right-4 z-[998] md:bottom-6 md:right-6">

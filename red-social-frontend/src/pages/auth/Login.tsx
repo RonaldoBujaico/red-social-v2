@@ -1,6 +1,7 @@
 import { useState } from "react";
-import { Mail, Lock } from "lucide-react";
+import { Mail } from "lucide-react";
 import { useAuthStore } from "@/store/auth.store";
+import PasswordInput from "@/components/PasswordInput";
 
 export default function Login() {
     const [email, setEmail] = useState("");
@@ -52,16 +53,15 @@ export default function Login() {
                         />
                     </div>
 
-                    <div className="relative">
-                        <Lock className="absolute left-3 top-3.5 text-muted-foreground w-5 h-5" />
-                        <input
-                            type="password"
-                            placeholder="Contraseña"
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                            className="w-full pl-10 pr-4 py-3 rounded-xl bg-background border border-border focus:outline-none focus:ring-2 focus:ring-primary transition"
-                        />
-                    </div>
+                    <PasswordInput
+                        id="login-password"
+                        name="password"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        placeholder="Contraseña"
+                        ariaLabel="Contraseña de acceso"
+                        autoComplete="current-password"
+                    />
 
                     <div className="flex justify-between items-center text-sm text-muted-foreground">
                         <label className="flex items-center gap-2">

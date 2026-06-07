@@ -1,6 +1,7 @@
 import { useState } from "react";
-import { Mail, Lock, User } from "lucide-react";
+import { Mail, User } from "lucide-react";
 import { api } from "@/api/axios";
+import PasswordInput from "@/components/PasswordInput";
 
 export default function Register() {
     const [form, setForm] = useState({
@@ -115,17 +116,15 @@ export default function Register() {
                         />
                     </div>
 
-                    <div className="relative">
-                        <Lock className="absolute left-3 top-3.5 text-muted-foreground w-5 h-5" />
-                        <input
-                            name="password"
-                            type="password"
-                            placeholder="Contraseña"
-                            value={form.password}
-                            onChange={handleChange}
-                            className="w-full pl-10 py-3 rounded-xl bg-background border border-border focus:ring-2 focus:ring-primary outline-none"
-                        />
-                    </div>
+                    <PasswordInput
+                        id="register-password"
+                        name="password"
+                        value={form.password}
+                        onChange={handleChange}
+                        placeholder="Contraseña"
+                        ariaLabel="Contraseña para la nueva cuenta"
+                        autoComplete="new-password"
+                    />
 
                     <button
                         disabled={loading}

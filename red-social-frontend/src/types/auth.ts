@@ -3,6 +3,10 @@ export interface User {
     email: string;
     role: string;
     profile: UserProfile;
+    interests?: { id: number; interestName: string }[];
+    skills?: { id: number; skillName: string }[];
+    courses?: { id: number; courseName: string }[];
+    researchTopics?: { id: number; topicName: string }[];
 }
 
 /*Reaciones sobre post*/
@@ -46,6 +50,16 @@ export interface UserProfile {
     cycle?: string | null;
     phone?: string | null;
     hobbies?: string | null;
+
+    // Nuevos campos académicos y geográficos
+    university?: string | null;
+    faculty?: string | null;
+    academic_cycle?: string | null;
+    country?: string | null;
+    department?: string | null;
+    province?: string | null;
+    district?: string | null;
+    biography?: string | null;
 }
 
 export interface AuthResponse {

@@ -8,6 +8,7 @@ import AdminLayout from "@/layouts/AdminLayout";
 import AuthLayout from "@/layouts/AuthLayout";
 import Register from "@/pages/auth/Register";
 import Verify from "@/pages/auth/Verify";
+import ForgotPassword from "@/pages/auth/ForgotPassword";
 import MyPosts from "@/pages/private/MyPosts";
 import Messages from "@/pages/private/Messages";
 import Settings from "@/pages/private/Setting";
@@ -35,6 +36,7 @@ export default function AppRouter() {
                     <Route path="/login" element={<Login />} />
                     <Route path="/register" element={<Register />} />
                     <Route path="/verify" element={<Verify />} />
+                    <Route path="/forgot-password" element={<ForgotPassword />} />
                 </Route>
 
                 <Route element={<ProtectedRoute />}>
